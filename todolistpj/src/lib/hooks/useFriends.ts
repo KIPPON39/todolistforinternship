@@ -61,15 +61,15 @@ export function useFriends() {
       row.requester_id === user.id ? row.addressee : row.requester
 
     setFriends(
-      rows.filter(r => r.status === 'accepted').map(r => ({ ...r, profile: getOther(r) }))
+      rows.filter(r => r.status === 'accepted').map(r => ({ ...r, profile: getOther(r) } as unknown as Friendship))
     )
     setPendingIncoming(
       rows.filter(r => r.status === 'pending' && r.addressee_id === user.id)
-          .map(r => ({ ...r, profile: r.requester }))
+          .map(r => ({ ...r, profile: r.requester } as unknown as Friendship))
     )
     setPendingSent(
       rows.filter(r => r.status === 'pending' && r.requester_id === user.id)
-          .map(r => ({ ...r, profile: r.addressee }))
+          .map(r => ({ ...r, profile: r.addressee } as unknown as Friendship))
     )
     setLoading(false)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
