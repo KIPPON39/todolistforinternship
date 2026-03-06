@@ -160,6 +160,7 @@ export default function FriendsPage() {
           ) : (
             <div className="space-y-2">
               {friends.map(({ id, profile }) => {
+                if (!profile) return null
                 const name = profile.display_name || profile.email.split('@')[0]
                 return (
                   <div key={id} className="flex items-center gap-3 bg-white border border-[#e2e8f0] rounded-xl px-4 py-3">
