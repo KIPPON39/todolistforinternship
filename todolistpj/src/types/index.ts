@@ -46,3 +46,13 @@ export interface TaskFilters {
   priority: TaskPriority | 'all'
   sortBy: 'created_at' | 'due_date' | 'priority'
 }
+
+export interface TaskInput {
+  title: string
+  description: string | null
+  category_id: string | null
+  status: TaskStatus
+  priority: TaskPriority
+  due_date: string | null
+  assignee_ids?: string[]
+}
