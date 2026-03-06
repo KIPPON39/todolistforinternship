@@ -96,7 +96,7 @@ export default function FriendsPage() {
             </h2>
             <div className="space-y-2">
               {pendingIncoming.map((req) => {
-                const p = req.requester
+                const p = req.profile
                 const name = p?.display_name || p?.email?.split('@')[0] || 'ไม่ทราบชื่อ'
                 return (
                   <div key={req.id} className="flex items-center gap-3 bg-white border border-[#e2e8f0] rounded-xl px-4 py-3">
