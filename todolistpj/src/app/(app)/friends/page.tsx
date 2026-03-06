@@ -188,23 +188,28 @@ export default function FriendsPage() {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden">
             <div className="flex items-center justify-between px-6 py-4 border-b border-[#e2e8f0]">
               <h2 className="text-lg font-bold text-[#0f172a]">เพิ่มเพื่อน</h2>
-              <button onClick={() => setAddOpen(false)} className="text-[#94a3b8] hover:text-[#0f172a]">X<X size={20} />X</button>
+              <button onClick={() => setAddOpen(false)} className="text-[#94a3b8] hover:text-[#0f172a]"><X size={20} /></button>
             </div>
             <div className="px-6 py-5 space-y-4">
-              <p className="text-sm text-[#64748b]">ใส่รหัสเพื่อนของอีกฝ่าย (8 ตัวอักษร)</p>
+              <p className="text-sm text-[#64748b]">ใส่รหัสเพื่อนของอีกฝ่าย (รูปแบบ XXXX-XXXX)</p>
               <input
                 value={codeInput}
-                onChange={(e) => { setCodeInput(e.target.value.toUpperCase()); setAddError('') }}
-                placeholder="เช่น A3B7F2C9"
-                maxLength={8}
+                onChange={(e) => {
+                  let val = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '')
+                  if (val.length > 4) val = val.slice(0, 4) + '-' + val.slice(4, 8)
+                  setCodeInput(val)
+                  setAddError('')
+                }}
+                placeholder="เช่น A3B7-F2C9"
+                maxLength={9}
                 className="w-full px-4 py-3 text-center text-xl font-mono tracking-[0.25em] font-bold border-2 border-[#e2e8f0] rounded-xl focus:outline-none focus:border-[#6366f1] text-[#0f172a] placeholder:text-[#cbd5e1] placeholder:font-normal placeholder:tracking-normal placeholder:text-base"
               />
               {addError && <p className="text-sm text-red-500 text-center">{addError}</p>}
-              {addSuccess && <p className="text-sm text-green-500 text-center font-medium">ส่งคำขอเพื่อนแล้ว\!</p>}
+              {addSuccess && <p className="text-sm text-green-500 text-center font-medium">ส่งคำขอเพื่อนแล้ว!</p>}
             </div>
             <div className="flex justify-end gap-3 px-6 py-4 border-t border-[#e2e8f0]">
               <button type="button" onClick={() => setAddOpen(false)} className="px-4 py-2 text-sm font-medium text-[#64748b] hover:text-[#0f172a]">ยกเลิก</button>
-              <button onClick={handleAddFriend} disabled={submitting || codeInput.length < 6}
+              <button onClick={handleAddFriend} disabled={submitting || codeInput.length < 9}
                 className="px-5 py-2 bg-[#6366f1] text-white text-sm font-medium rounded-lg hover:bg-indigo-600 transition-colors disabled:opacity-60">
                 {submitting ? 'กำลังส่ง...' : 'ส่งคำขอ'}
               </button>
