@@ -1,27 +1,20 @@
 'use client'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { LayoutDashboard, CheckSquare, Tag, Users, Bell, LogOut } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
+import { usePathname } from 'next/navigation'
+import { LayoutDashboard, CheckSquare, Tag, Users, Bell } from 'lucide-react'
 
 const navItems = [
   { href: '/dashboard',  label: 'Dashboard',         icon: LayoutDashboard },
   { href: '/tasks',      label: 'งานทั้งหมด',        icon: CheckSquare },
   { href: '/categories', label: 'หมวดหมู่',          icon: Tag },
   { href: '/friends',    label: 'เพื่อน',             icon: Users },
+  { href: '/tagged',     label: 'งานที่ถูกแท็ก',     icon: Bell },
 ]
 
 interface Props { userEmail: string }
 
 export default function Sidebar({ userEmail }: Props) {
   const pathname = usePathname()
-  const router   = useRouter()
-  const supabase = createClient()
-
-  async function handleLogout() {
-    await supabase.auth.signOut()
-    router.push('/login')
-  }
 
   return (
     <aside className="fixed top-0 left-0 w-[240px] h-screen bg-[#f8fafc] border-r border-[#e2e8f0] flex flex-col z-30">
@@ -54,18 +47,11 @@ export default function Sidebar({ userEmail }: Props) {
         })}
       </nav>
 
-      {/* User + Logout */}
-      <div className="px-3 py-4 border-t border-[#e2e8f0] space-y-2">
+      {/* User */}
+      <div className="px-3 py-4 border-t border-[#e2e8f0]">
         <div className="px-3 py-1">
           <p className="text-xs text-[#64748b] truncate">{userEmail}</p>
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium text-[#64748b] hover:bg-red-50 hover:text-red-500 transition-colors"
-        >
-          <LogOut size={18} />
-          ออกจากระบบ
-        </button>
       </div>
     </aside>
   )
