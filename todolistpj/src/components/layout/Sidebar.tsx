@@ -8,7 +8,6 @@ const navItems = [
   { href: '/tasks',      label: 'งานทั้งหมด',        icon: CheckSquare },
   { href: '/categories', label: 'หมวดหมู่',          icon: Tag },
   { href: '/friends',    label: 'เพื่อน',             icon: Users },
-  { href: '/tagged',     label: 'งานที่ถูกแท็ก',     icon: Bell },
 ]
 
 interface Props { userEmail: string }
