@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-const DEMO_EMAIL = 'wisit.s@kkumail.com'
-const DEMO_PASSWORD = '123456'
+const DEMO_EMAIL = 'TestUser01@gmail.com'
+const DEMO_PASSWORD = '123456789'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
