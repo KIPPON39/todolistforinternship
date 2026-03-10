@@ -1,15 +1,31 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+
+const DEMO_EMAIL = 'TestUser01@gmail.com'
+const DEMO_PASSWORD = '123456789'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState<{ text: string; type: 'error' | 'success' } | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const router = useRouter()
   const supabase = createClient()
+
+  useEffect(() => {
+    supabase.auth
+      .signInWithPassword({ email: DEMO_EMAIL, password: DEMO_PASSWORD })
+      .then(({ error }) => {
+        if (error) {
+          setMessage({ text: error.message, type: 'error' })
+          setLoading(false)
+        } else {
+          router.replace('/dashboard')
+        }
+      })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function handleLogin() {
     setLoading(true); setMessage(null)
@@ -25,6 +41,17 @@ export default function LoginPage() {
     if (error) { setMessage({ text: error.message, type: 'error' }); setLoading(false); return }
     setMessage({ text: 'ส่ง confirmation email แล้ว กรุณาตรวจสอบอีเมล', type: 'success' })
     setLoading(false)
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8fafc]">
+        <div className="text-center space-y-3">
+          <div className="w-8 h-8 border-4 border-[#6366f1] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-sm text-[#64748b]">กำลังเข้าสู่ระบบ...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
