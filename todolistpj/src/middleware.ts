@@ -20,20 +20,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
-
-  const isAuthPage = request.nextUrl.pathname.startsWith('/login') ||
-                     request.nextUrl.pathname.startsWith('/register')
-
-  // ไม่ได้ login และไม่ได้อยู่หน้า auth → redirect ไป /login
-  if (!user && !isAuthPage) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  // login แล้ว แต่อยู่หน้า auth → redirect ไป /dashboard
-  if (user && isAuthPage) {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
+  await supabase.auth.getUser()
 
   return supabaseResponse
 }
